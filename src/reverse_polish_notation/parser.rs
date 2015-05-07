@@ -1,18 +1,18 @@
+//pub use self::Token::{Operator, Val};
+
 enum Token {
 	Operator(char),
-	Val(i32),
-	Nil
+	Val(i32)
 }
 
 pub fn parse(input: String) -> String {
 	let tokens = tokenize(&input);
 	
 	for token in tokens {
-		/*match token {
-			Operator(c)	=> print!("{}", c),
-			Val(v)		=> print!("{}", v),
-			Nil			=> {}
-		}*/
+		match token {
+			Token::Operator(c)	=> print!("{}", c),
+			Token::Val(v)		=> print!("{}", v)
+		}
 	}
 	println!("");
 	println!("");
@@ -28,9 +28,12 @@ fn tokenize(input: &String) -> Vec<Token> {
 			val = val * 10 + c as i32 - '0' as i32;
 		} else {
 			tokens.push(Token::Val(val));
+			val = 0;
 			tokens.push(Token::Operator(c));
 		}
 	}
-	
+	tokens.push(Token::Val(val));
+
+
 	tokens
 }
