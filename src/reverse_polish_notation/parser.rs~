@@ -5,8 +5,16 @@ enum Expression {
 }
 
 pub fn parse(input: String) -> String {							// parses into reverse polish notation
-	let tokens = tokenize(&input);
-	
+	let expressions = tokenize(&input);
+
+	for token in expressions {
+		match token {
+			Expression::Operator(c)	=> print!("{}", c),
+			Expression::Val(v)		=> print!("{}", v),
+			Expression::Nil			=> print!("nil")
+		}
+	}
+
 	input
 }
 
@@ -43,7 +51,7 @@ fn tokenize(input: &String) -> Vec<Expression> {
 		}
 		i = i + 1;
 	}
-	
+
 	tokens
 }
 
