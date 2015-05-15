@@ -1,24 +1,34 @@
-enum Expression {
-	Operator(char),
+pub enum Expression {
+	Operator(String),
 	Val(i32),
 	Nil
 }
 
-pub fn parse(input: String) -> String {							// parses into reverse polish notation
+pub fn parse(input: String) -> Vec<Expression> {
 	let expressions = tokenize(&input);
 
-	for expression in expressions {
-		match expression {
-			Expression::Operator(c)	=> print!("{}", c),
-			Expression::Val(v)		=> print!("{}", v),
-			Expression::Nil			=> print!("nil")
+	shunting_yard_parser(expressions)	
+}
+
+fn shunting_yard_parser(input: Vec<Expression>) -> Vec<Expression> {
+	// parses into reverse polish notation using the shunting yard algorithm
+
+	let mut output: Vec<Expression> = Vec::new();
+	let mut operators: Vec<Expression> = Vec::new();
+	
+	for ex in input {
+		match ex {
+			Expression::Operator(o)	=> {},
+			Expression::Val(v)		=> output.push(ex),
+			Expression::Nil			=> {}
 		}
 	}
-
-	input
+	
+	output
 }
 
 fn tokenize(input: &String) -> Vec<Expression> {
+	// breaks the string into tokens (either a value or a operator)
 	let mut tokens = Vec::new();
 	
 	let mut cs = Vec::new();
@@ -42,7 +52,7 @@ fn tokenize(input: &String) -> Vec<Expression> {
 			
 		} else if is_operator(x) {								// handles symbolic operators
 		
-			tokens.push(Expression::Operator(x));
+			tokens.push(Expression::Operator(x.to_string()));
 		
 		} else { 												// handles other operators containing letters
 		
@@ -67,4 +77,8 @@ fn is_operator(c: char) -> bool {
 	c == '(' ||
 	c == ')' ||
 	c == '^'
+}
+
+fn get_precedence(operator: String) -> i8 {
+	1
 }

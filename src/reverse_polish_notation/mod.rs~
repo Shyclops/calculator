@@ -1,0 +1,7 @@
+pub enum Expression {
+	Operator(String),
+	Val(i32),
+	Nil
+}
+
+pub mod parser;
